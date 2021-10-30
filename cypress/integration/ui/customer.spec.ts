@@ -1,9 +1,9 @@
-import {login} from "../pages/login";
-import {katana} from "../pages/katana";
-import {Pages} from "../pages/pages";
-import {customer} from "../pages/customer";
-import {defaultCustomer} from "../fixtures/ICustomer";
-import {contacts} from "../pages/contacts";
+import {login} from "../../pages/login";
+import {katana} from "../../pages/katana";
+import {Pages} from "../../pages/pages";
+import {customer} from "../../pages/customer";
+import {defaultCustomer} from "../../fixtures/ICustomer";
+import {contacts} from "../../pages/contacts";
 
 describe("customer can be added", function () {
     it('should login', function () {
