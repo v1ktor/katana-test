@@ -1,7 +1,8 @@
-import {IBillingAddress, defaultBillingAddress} from "./IBillingAddress";
-import { v4 as uuidv4 } from 'uuid';
+import {defaultBillingAddress, IBillingAddress} from "./IBillingAddress";
+import {v4 as uuidv4} from 'uuid';
 
 export interface ICustomer {
+    name?: string, // display name
     firstName: string,
     lastName: string,
     companyName: string,
@@ -12,9 +13,13 @@ export interface ICustomer {
     billingAddress: IBillingAddress
 }
 
+let firstName: string = "Viktor"
+let lastName: string = uuidv4()
+
 export const defaultCustomer: ICustomer = {
-    firstName: "Viktor",
-    lastName: uuidv4(),
+    name: `${firstName} ${lastName}`,
+    firstName: firstName,
+    lastName: lastName,
     companyName: "Umbrella",
     email: "mirelir689@d3bb.com",
     phone: "+372 000 111 222 333",
