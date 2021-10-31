@@ -93,3 +93,34 @@ describe("customer with address can be added", function () {
         })
     })
 })
+
+describe("customer cannot be added without display name", function () {
+    it('should not add customer without display name', function () {
+        cy.visit("/login")
+        login.loginAs()
+        cy.intercept("GET", "https://users.katanamrp.com/api/katanaUsers/userinfo?qbConnectDialogOpen=false").as("userInfo")
+        cy.wait("@userInfo").then(interception => {
+            api.authToken = interception.request.headers.authorization
+            expectedCustomer.name = null
+
+            api.addCustomer(expectedCustomer, false).then(response => {
+                expect(response.status).to.be.eq(422)
+            })
+        })
+        });
+})
+
+describe('customer cannot be added without authToken', function () {
+    it('should not add customer without authToken', function () {
+        cy.visit("/login")
+        login.loginAs()
+        cy.intercept("GET", "https://users.katanamrp.com/api/katanaUsers/userinfo?qbConnectDialogOpen=false").as("userInfo")
+        cy.wait("@userInfo").then(interception => {
+            api.authToken = null
+
+            api.addCustomer(expectedCustomer, false).then(response => {
+                expect(response.status).to.be.eq(401)
+            })
+        })
+    });
+});
