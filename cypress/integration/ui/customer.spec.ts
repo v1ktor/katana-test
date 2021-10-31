@@ -17,7 +17,7 @@ describe("customer can be added", function () {
     });
     it('should verify that new customer is added', function () {
         katana.navigateTo(Pages.ALL_CONTACTS)
-        contacts.findByName(defaultCustomer.lastName)
+        contacts.findByName(defaultCustomer.last_name)
         customer.verifyCustomerDataIsAdded(defaultCustomer)
     });
 })

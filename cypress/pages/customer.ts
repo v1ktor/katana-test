@@ -1,6 +1,6 @@
 import {ICustomer} from "../fixtures/ICustomer";
 import {BillingAddress} from "./billingAddress";
-import {IBillingAddress} from "../fixtures/IBillingAddress";
+import {IAddress} from "../fixtures/IAddress";
 
 class Customer {
     private readonly billingAddress = new BillingAddress()
@@ -80,29 +80,29 @@ class Customer {
         cy.get(this.isSaved).should("have.text", this.tmplAllChangesSaved)
     }
 
-    public verifyBillingAddressIsSaved(billingAddress: IBillingAddress): void {
+    public verifyBillingAddressIsSaved(billingAddress: IAddress): void {
         cy.get(this.isSaved).should("have.text", this.tmplAllChangesSaved)
         cy.get(this.billingAddressContactInformation)
             .should(
                 "have.text",
-                `${billingAddress.firstName} ${billingAddress.lastName}, ${billingAddress.company}`
+                `${billingAddress.first_name} ${billingAddress.last_name}, ${billingAddress.company}`
             )
         cy.get(this.billingAddressInformation)
             .should(
                 "have.text",
-                `${billingAddress.addressLine1}, ${billingAddress.addressLine2}, ${billingAddress.city}, ${billingAddress.region}, ${billingAddress.zip}, ${billingAddress.country}`
+                `${billingAddress.line_1}, ${billingAddress.line_2}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.zip}, ${billingAddress.country}`
             )
         cy.get(this.billingAddressPhone)
             .should("have.text", billingAddress.phone)
     }
 
     public fillCustomerData(customer: ICustomer) {
-        this.setFirstName(customer.firstName)
-        this.setLastName(customer.lastName)
-        this.verifyDisplayName(`${customer.firstName} ${customer.lastName}`)
+        this.setFirstName(customer.first_name)
+        this.setLastName(customer.last_name)
+        this.verifyDisplayName(`${customer.first_name} ${customer.last_name}`)
         this.verifyAllChangesAreSaved(this.fieldCompanyName)
 
-        this.setCompanyName(customer.companyName)
+        this.setCompanyName(customer.company)
         this.verifyAllChangesAreSaved(this.fieldEmail)
 
         this.setEmail(customer.email)
@@ -115,8 +115,8 @@ class Customer {
         this.verifyAllChangesAreSaved(this.fieldCompanyName)
 
         this.clickOnBillingAddress()
-        this.billingAddress.fillBillingAddress(customer.billingAddress)
-        this.verifyBillingAddressIsSaved(customer.billingAddress)
+        this.billingAddress.fillBillingAddress(customer.addresses[0])
+        this.verifyBillingAddressIsSaved(customer.addresses[0])
     }
 
     public verifyTitle(title: string): void {
@@ -156,15 +156,15 @@ class Customer {
     }
 
     public verifyCustomerDataIsAdded(customer: ICustomer) {
-        this.verifyTitle(`${customer.firstName} ${customer.lastName}`)
-        this.verifyFirstName(customer.firstName)
-        this.verifyLastName(customer.lastName)
-        this.verifyCompanyName(customer.companyName)
-        this.verifyDisplayName(`${customer.firstName} ${customer.lastName}`)
+        this.verifyTitle(`${customer.first_name} ${customer.last_name}`)
+        this.verifyFirstName(customer.first_name)
+        this.verifyLastName(customer.last_name)
+        this.verifyCompanyName(customer.company)
+        this.verifyDisplayName(`${customer.first_name} ${customer.last_name}`)
         this.verifyEmail(customer.email)
         this.verifyPhone(customer.phone)
         this.verifyComment(customer.comment)
-        this.verifyBillingAddressIsSaved(customer.billingAddress)
+        this.verifyBillingAddressIsSaved(customer.addresses[0])
         this.verifyDefaultShippingAddress()
     }
 

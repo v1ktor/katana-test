@@ -18,7 +18,7 @@ describe("customer can be added", function () {
             }).should(response => {
                 cy.log(JSON.stringify(response.body))
             })
-            console.log(defaultCustomer.lastName)
+            console.log(defaultCustomer.last_name)
         })
     })
 })

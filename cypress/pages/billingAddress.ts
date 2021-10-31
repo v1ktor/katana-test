@@ -1,4 +1,4 @@
-import {IBillingAddress} from "../fixtures/IBillingAddress";
+import {IAddress} from "../fixtures/IAddress";
 
 export class BillingAddress {
     private readonly fieldFirstName: string = "input[name='firstName']"
@@ -65,15 +65,15 @@ export class BillingAddress {
         cy.get(this.buttonSubmit).click()
     }
 
-    public fillBillingAddress(billingAddress: IBillingAddress): void {
-        this.setFirstName(billingAddress.firstName)
-        this.setLastName(billingAddress.lastName)
+    public fillBillingAddress(billingAddress: IAddress): void {
+        this.setFirstName(billingAddress.first_name)
+        this.setLastName(billingAddress.last_name)
         this.setCompany(billingAddress.company)
         this.setPhone(billingAddress.phone)
-        this.setAddressLine1(billingAddress.addressLine1)
-        this.setAddressLine2(billingAddress.addressLine2)
+        this.setAddressLine1(billingAddress.line_1)
+        this.setAddressLine2(billingAddress.line_2)
         this.setCity(billingAddress.city)
-        this.setRegion(billingAddress.region)
+        this.setRegion(billingAddress.state)
         this.setZip(billingAddress.zip)
         this.setCountry(billingAddress.country)
         this.clickSubmit()
