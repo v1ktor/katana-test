@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES6",
     "lib": ["es6", "dom"],
-    "types": ["cypress", "cypress-plugin-tab"]
+    "types": ["cypress"]
   },
   "include": [
     "**/*.ts",

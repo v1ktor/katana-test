@@ -4,11 +4,12 @@ import {api} from "../../utils/api";
 import {IAddress} from "../../fixtures/IAddress";
 import {AddressEntityType} from "../../fixtures/addressEntityType";
 import {v4 as uuidv4} from "uuid";
+import {helper} from "../../utils/helper";
 
 let firstName: string = "Viktor"
 let lastName: string = uuidv4()
 
-let expectedAddress: IAddress = {
+let testAddress: IAddress = {
     entityType: AddressEntityType.billing,
     firstName: "Viktor",
     lastName: "Kalinin",
@@ -22,7 +23,7 @@ let expectedAddress: IAddress = {
     country: "Estonia"
 }
 
-let expectedCustomer: ICustomer = {
+let testCustomer: ICustomer = {
     firstName: firstName,
     lastName: lastName,
     name: `${firstName} ${lastName}`,
@@ -33,20 +34,26 @@ let expectedCustomer: ICustomer = {
     currency: "EUR",
 }
 
+beforeEach(() => {
+    cy.visit("/login")
+    login.loginAs()
+    cy.intercept("GET", "https://users.katanamrp.com/api/katanaUsers/userinfo?qbConnectDialogOpen=false").as("userInfo")
+})
+
 describe("adding a customer", function () {
-
-    beforeEach(() => {
-        cy.visit("/login")
-        login.loginAs()
-        cy.intercept("GET", "https://users.katanamrp.com/api/katanaUsers/userinfo?qbConnectDialogOpen=false").as("userInfo")
-    })
-
     it("should add customer with address and verify", function () {
         cy.wait("@userInfo").then(interception => {
             api.authToken = interception.request.headers.authorization
+
+            let lastName: string = uuidv4()
+            let expectedCustomer = Object.assign({}, testCustomer)
+            expectedCustomer.lastName = lastName
+            expectedCustomer.name = `${firstName} ${lastName}`
+
             api.addCustomer(expectedCustomer)
                 .then(response => {
                     let actualCustomer = response.body as ICustomer
+                    let expectedAddress = Object.assign({}, testAddress)
                     expectedAddress.customerId = actualCustomer.id
 
                     api.addCustomerAddress(expectedAddress)
@@ -100,6 +107,10 @@ describe("adding a customer", function () {
     it('should not add customer without display name', function () {
         cy.wait("@userInfo").then(interception => {
             api.authToken = interception.request.headers.authorization
+
+            let lastName: string = uuidv4()
+            let expectedCustomer = Object.assign({}, testCustomer)
+            expectedCustomer.lastName = lastName
             expectedCustomer.name = null
 
             api.addCustomer(expectedCustomer, false).then(response => {
@@ -112,9 +123,55 @@ describe("adding a customer", function () {
         cy.wait("@userInfo").then(interception => {
             api.authToken = null
 
+            let lastName: string = uuidv4()
+            let expectedCustomer = Object.assign({}, testCustomer)
+            expectedCustomer.lastName = lastName
+            expectedCustomer.name = `${firstName} ${lastName}`
+
             api.addCustomer(expectedCustomer, false).then(response => {
                 expect(response.status).to.be.eq(401)
             })
         })
     });
 })
+
+describe("add customer with various values for the firstname", function () {
+    [
+        "null",
+        "0",
+        "!@#$%^&*()_+/\\<><strong>test</strong>",
+        "",
+        helper.generateRandomString(100)
+    ].forEach((firstNameValue) => {
+        it("should add customer with firstname value: " + firstNameValue, function () {
+            cy.wait("@userInfo").then(interception => {
+                api.authToken = interception.request.headers.authorization
+
+                let lastName: string = uuidv4()
+                let expectedCustomer = Object.assign({}, testCustomer)
+                expectedCustomer.firstName = firstNameValue
+                expectedCustomer.lastName = lastName
+                expectedCustomer.name = `${firstName} ${lastName}`
+
+                api.addCustomer(expectedCustomer).then(response => {
+                    let actualCustomer = response.body as ICustomer
+
+                    expect(actualCustomer.firstName).to.be.eq(expectedCustomer.firstName)
+                    expect(actualCustomer.lastName).to.be.eq(expectedCustomer.lastName)
+                    expect(actualCustomer.company).to.be.eq(expectedCustomer.company)
+                    expect(actualCustomer.name).to.be.eq(expectedCustomer.name)
+                    expect(actualCustomer.email).to.be.eq(expectedCustomer.email)
+                    expect(actualCustomer.phone).to.be.eq(expectedCustomer.phone)
+                    expect(actualCustomer.comment).to.be.eq(expectedCustomer.comment)
+                    expect(actualCustomer.currency).to.be.eq(expectedCustomer.currency)
+                    expect(actualCustomer.defaultBillingId).to.be.null
+                    expect(actualCustomer.defaultShippingId).to.be.null
+                    expect(actualCustomer.deletedAt).to.be.null
+                    expect(actualCustomer.createdAt).not.to.be.null
+                    expect(actualCustomer.updatedAt).not.to.be.null
+                    expect(actualCustomer.factoryId).not.to.be.null
+                })
+            })
+        });
+    })
+});
