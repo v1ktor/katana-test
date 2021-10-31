@@ -66,12 +66,12 @@ export class BillingAddress {
     }
 
     public fillBillingAddress(billingAddress: IAddress): void {
-        this.setFirstName(billingAddress.first_name)
-        this.setLastName(billingAddress.last_name)
+        this.setFirstName(billingAddress.firstName)
+        this.setLastName(billingAddress.lastName)
         this.setCompany(billingAddress.company)
         this.setPhone(billingAddress.phone)
-        this.setAddressLine1(billingAddress.line_1)
-        this.setAddressLine2(billingAddress.line_2)
+        this.setAddressLine1(billingAddress.line1)
+        this.setAddressLine2(billingAddress.line2)
         this.setCity(billingAddress.city)
         this.setRegion(billingAddress.state)
         this.setZip(billingAddress.zip)

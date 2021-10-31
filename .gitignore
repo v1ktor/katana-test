@@ -5,3 +5,5 @@ katana-test-task.iml
 cypress.env.json
 
 cypress/videos
+
+*.env

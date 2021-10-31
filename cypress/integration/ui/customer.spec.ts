@@ -2,7 +2,7 @@ import {login} from "../../pages/login";
 import {katana} from "../../pages/katana";
 import {Pages} from "../../pages/pages";
 import {customer} from "../../pages/customer";
-import {defaultCustomer} from "../../fixtures/ICustomer";
+import {customerUi} from "../../fixtures/ICustomer";
 import {contacts} from "../../pages/contacts";
 
 describe("customer can be added", function () {
@@ -13,11 +13,11 @@ describe("customer can be added", function () {
     });
     it('should add new customer', function () {
         katana.navigateTo(Pages.NEW_CUSTOMER)
-        customer.fillCustomerData(defaultCustomer)
+        customer.fillCustomerData(customerUi)
     });
     it('should verify that new customer is added', function () {
         katana.navigateTo(Pages.ALL_CONTACTS)
-        contacts.findByName(defaultCustomer.last_name)
-        customer.verifyCustomerDataIsAdded(defaultCustomer)
+        contacts.findByName(customerUi.lastName)
+        customer.verifyCustomerDataIsAdded(customerUi)
     });
 })

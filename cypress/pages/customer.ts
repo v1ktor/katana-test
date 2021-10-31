@@ -85,21 +85,21 @@ class Customer {
         cy.get(this.billingAddressContactInformation)
             .should(
                 "have.text",
-                `${billingAddress.first_name} ${billingAddress.last_name}, ${billingAddress.company}`
+                `${billingAddress.firstName} ${billingAddress.lastName}, ${billingAddress.company}`
             )
         cy.get(this.billingAddressInformation)
             .should(
                 "have.text",
-                `${billingAddress.line_1}, ${billingAddress.line_2}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.zip}, ${billingAddress.country}`
+                `${billingAddress.line1}, ${billingAddress.line2}, ${billingAddress.city}, ${billingAddress.state}, ${billingAddress.zip}, ${billingAddress.country}`
             )
         cy.get(this.billingAddressPhone)
             .should("have.text", billingAddress.phone)
     }
 
     public fillCustomerData(customer: ICustomer) {
-        this.setFirstName(customer.first_name)
-        this.setLastName(customer.last_name)
-        this.verifyDisplayName(`${customer.first_name} ${customer.last_name}`)
+        this.setFirstName(customer.firstName)
+        this.setLastName(customer.lastName)
+        this.verifyDisplayName(`${customer.firstName} ${customer.lastName}`)
         this.verifyAllChangesAreSaved(this.fieldCompanyName)
 
         this.setCompanyName(customer.company)
@@ -156,11 +156,11 @@ class Customer {
     }
 
     public verifyCustomerDataIsAdded(customer: ICustomer) {
-        this.verifyTitle(`${customer.first_name} ${customer.last_name}`)
-        this.verifyFirstName(customer.first_name)
-        this.verifyLastName(customer.last_name)
+        this.verifyTitle(`${customer.firstName} ${customer.lastName}`)
+        this.verifyFirstName(customer.firstName)
+        this.verifyLastName(customer.lastName)
         this.verifyCompanyName(customer.company)
-        this.verifyDisplayName(`${customer.first_name} ${customer.last_name}`)
+        this.verifyDisplayName(`${customer.firstName} ${customer.lastName}`)
         this.verifyEmail(customer.email)
         this.verifyPhone(customer.phone)
         this.verifyComment(customer.comment)
