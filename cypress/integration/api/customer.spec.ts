@@ -1,4 +1,4 @@
-import {login} from "../../pages/login";
+import {loginPage} from "../../pages/loginPage";
 import {ICustomer} from "../../fixtures/ICustomer";
 import {api} from "../../utils/api";
 import {IAddress} from "../../fixtures/IAddress";
@@ -36,7 +36,7 @@ let testCustomer: ICustomer = {
 
 beforeEach(() => {
     cy.visit("/login")
-    login.loginAs()
+    loginPage.loginAs()
     cy.intercept("GET", "https://users.katanamrp.com/api/katanaUsers/userinfo?qbConnectDialogOpen=false").as("userInfo")
 })
 

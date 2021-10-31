@@ -1,4 +1,4 @@
-class Login {
+class LoginPage {
     private readonly fieldEmail: string = "#1-email"
     private readonly fieldPassword: string = "input[name='password']"
     private readonly buttonSubmit: string = "button[name='submit']"
@@ -15,4 +15,4 @@ class Login {
     }
 }
 
-export const login = new Login()
+export const loginPage = new LoginPage()

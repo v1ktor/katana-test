@@ -1,6 +1,6 @@
 import {Pages} from "./pages";
 
-class Katana {
+class Navigation {
     private readonly buttonGlobalAdd: string = "#globalAdd"
     private readonly buttonCustomer: string = "#add-customer"
     private readonly buttonContacts: string = "#contactsTab"
@@ -22,4 +22,4 @@ class Katana {
     }
 }
 
-export const katana = new Katana()
+export const navigation = new Navigation()

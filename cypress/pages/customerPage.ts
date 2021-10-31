@@ -1,9 +1,9 @@
 import {ICustomer} from "../fixtures/ICustomer";
-import {BillingAddress} from "./billingAddress";
+import {BillingAddressPage} from "./billingAddressPage";
 import {IAddress} from "../fixtures/IAddress";
 
-class Customer {
-    private readonly billingAddress = new BillingAddress()
+class CustomerPage {
+    private readonly billingAddress = new BillingAddressPage()
 
     private readonly fieldFirstName: string = "input[name='firstName']"
     private readonly fieldLastName: string = "input[name='lastName']"
@@ -170,4 +170,4 @@ class Customer {
 
 }
 
-export const customer = new Customer()
+export const customerPage = new CustomerPage()

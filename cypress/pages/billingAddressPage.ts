@@ -1,6 +1,6 @@
 import {IAddress} from "../fixtures/IAddress";
 
-export class BillingAddress {
+export class BillingAddressPage {
     private readonly fieldFirstName: string = "input[name='firstName']"
     private readonly fieldLastName: string = "input[name='lastName']"
     private readonly fieldCompany: string = "input[name='company']"
@@ -79,5 +79,3 @@ export class BillingAddress {
         this.clickSubmit()
     }
 }
-
-export const billingAddress = new BillingAddress()
