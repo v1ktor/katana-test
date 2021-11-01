@@ -2,7 +2,7 @@
 node_modules
 katana-test-task.iml
 
-cypress.env.json
+#cypress.env.json
 
 cypress/videos
 
