@@ -8,7 +8,7 @@ class LoginPage {
      * @param username
      * @param password
      */
-    public loginAs(username: string = Cypress.env('username'), password: string = Cypress.env("password")): void {
+    public loginAs(username: string = Cypress.env("username"), password: string = Cypress.env("password")): void {
         cy.get(this.fieldEmail).type(username)
         cy.get(this.fieldPassword).type(password)
         cy.get(this.buttonSubmit).click()
