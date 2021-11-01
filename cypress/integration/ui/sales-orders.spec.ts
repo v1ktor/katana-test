@@ -72,7 +72,7 @@ beforeEach(() => {
                 expectedCustomer.defaultShippingId = response.body.id
                 expectedCustomer.defaultBillingId = response.body.id
 
-                api.updateCustomer(expectedCustomer).then(response => {
+                api.updateCustomer(expectedCustomer).then(() => {
                     cy.wrap(expectedCustomer).as("addedCustomer")
                 })
             })
@@ -80,8 +80,8 @@ beforeEach(() => {
     })
 })
 
-describe('sales order can be added', function () {
-    it('should add new sales order and verify', function () {
+describe("sales order can be added", function () {
+    it("should add new sales order and verify", function () {
         cy.get("@addedCustomer").then(addedCustomer => {
             let customer = addedCustomer as ICustomer
             let salesOrder = Object.assign({}, testSalesOrder)
@@ -98,5 +98,66 @@ describe('sales order can be added', function () {
             salesPage.findByOrder(salesOrder.orderNo)
             salesOrderPage.verifySalesOrder(salesOrder, customer)
         })
+    })
+
+    it("should change address of the sales order", function () {
+        cy.get("@addedCustomer").then(addedCustomer => {
+            let customer = addedCustomer as ICustomer
+            let address = Object.assign({}, testAddress)
+            address.firstName = "Toivo"
+            address.lastName = "Jürgenson"
+            address.city = "Tartu"
+            let salesOrder = Object.assign({}, testSalesOrder)
+            salesOrder.orderNo = uuidv4()
+
+            navigation.navigateTo(Pages.NEW_SALES_ORDER)
+            salesOrderPage.setCustomer(customer)
+            salesOrderPage.setOrderNo(salesOrder.orderNo)
+            salesOrderPage.setItem(salesOrder.item)
+            salesOrderPage.setAdditionalInfo(salesOrder.additionalInfo)
+            salesOrderPage.clickOnAddress()
+            salesOrderPage.setFirstName(address.firstName)
+            salesOrderPage.setLastName(address.lastName)
+            salesOrderPage.setCity(address.city)
+            salesOrderPage.clickOnSubmit()
+            salesOrderPage.verifyAllChangesAreSaved()
+
+            salesOrderPage.verifyAddress(address)
+        })
+    })
+
+    it("should not save sales order without customer", function () {
+        navigation.navigateTo(Pages.NEW_SALES_ORDER)
+        salesOrderPage.verifyAllChangesAreNotSaved()
+    });
+
+    it("should not save sales order without order no", function () {
+        cy.get("@addedCustomer").then(addedCustomer => {
+            let customer = addedCustomer as ICustomer
+
+            navigation.navigateTo(Pages.NEW_SALES_ORDER)
+            salesOrderPage.setCustomer(customer)
+            salesOrderPage.clearOrderNo()
+
+            salesOrderPage.verifyAllChangesAreNotSaved()
+        })
+    })
+
+    it("should delete saved sales order", function () {
+            cy.get("@addedCustomer").then(addedCustomer => {
+                let customer = addedCustomer as ICustomer
+                let salesOrder = Object.assign({}, testSalesOrder)
+                salesOrder.orderNo = uuidv4()
+
+                navigation.navigateTo(Pages.NEW_SALES_ORDER)
+                salesOrderPage.setCustomer(customer)
+                salesOrderPage.setOrderNo(salesOrder.orderNo)
+                salesOrderPage.setItem(salesOrder.item)
+                salesOrderPage.setAdditionalInfo(salesOrder.additionalInfo)
+                salesOrderPage.verifyAllChangesAreSaved()
+                salesOrderPage.deleteSalesOrder()
+
+                salesPage.verifyOrderCannotBeFound(salesOrder.orderNo)
+            })
     });
 });

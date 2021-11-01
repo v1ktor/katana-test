@@ -7,9 +7,9 @@ class CustomerPage {
 
     private readonly fieldFirstName: string = "input[name='firstName']"
     private readonly fieldLastName: string = "input[name='lastName']"
-    private readonly fieldCompanyName: string = "input[name='company']"
+    public readonly fieldCompanyName: string = "input[name='company']"
     private readonly fieldDisplayName: string = "input[name='name']"
-    private readonly fieldEmail: string = "input[name='email']"
+    public readonly fieldEmail: string = "input[name='email']"
     private readonly fieldPhone: string = "input[name='phone']"
     private readonly fieldComment: string = "input[name='comment']"
     private readonly fieldBillingAddress: string = "input[name='defaultBillingAddress']"
@@ -22,8 +22,10 @@ class CustomerPage {
     private readonly title: string = "span[data-testid='header-name-customer']"
 
     private readonly isSaved: string = ".MuiGrid-justify-content-xs-center > :nth-child(1) > :nth-child(1) > :nth-child(2) > .MuiGrid-root"
+    private readonly notSaved: string =".MuiGrid-root.MuiGrid-container.MuiGrid-align-items-xs-center > div:nth-child(2) > div > div.notSaved.katana-label.print-hide"
 
     private readonly tmplAllChangesSaved: string = "All changes saved"
+    private readonly tmplNotSaved: string = "Not saved"
 
     public setFirstName(firstName: string): void {
         cy.get(this.fieldFirstName)
@@ -46,7 +48,7 @@ class CustomerPage {
     public setDisplayName(displayName: string): void {
         cy.get(this.fieldDisplayName)
             .clear()
-            .type(`${this.fieldFirstName} ${this.fieldLastName}`)
+            .type(displayName)
     }
 
     public verifyDisplayName(displayName: string): void {
@@ -78,6 +80,10 @@ class CustomerPage {
     public verifyAllChangesAreSaved(field: string): void {
         cy.get(field).click()
         cy.get(this.isSaved).should("have.text", this.tmplAllChangesSaved)
+    }
+
+    public verifyAllChangesAreNotSaved(): void {
+        cy.get(this.notSaved).should("have.text", this.tmplNotSaved)
     }
 
     public verifyBillingAddressIsSaved(billingAddress: IAddress): void {
@@ -168,6 +174,13 @@ class CustomerPage {
         this.verifyDefaultShippingAddress()
     }
 
+    public verifyFirstNameSize(expectedSize: number) {
+        cy.get(this.fieldFirstName).invoke("val").its("length").should("eq", expectedSize)
+    }
+
+    public clickOnCompanyField(): void {
+        cy.get(this.fieldCompanyName).click()
+    }
 }
 
 export const customerPage = new CustomerPage()
