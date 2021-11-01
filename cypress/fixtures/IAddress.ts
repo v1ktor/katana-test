@@ -19,17 +19,3 @@ export interface IAddress {
     updatedAt?: dateTimeISO,
     factoryId?: bigint
 }
-
-export const defaultBillingAddress: IAddress = {
-    entityType: AddressEntityType.BILLING,
-    firstName: "Viktor",
-    lastName: "Kalinin",
-    company: "Umbrella",
-    phone: "+372 000 000 000",
-    line1: "Toompea 1 - 1",
-    line2: "Toompea 2 - 1",
-    city: "Tallinn",
-    state: "Harjumaa",
-    zip: "12345",
-    country: "Estonia"
-}
