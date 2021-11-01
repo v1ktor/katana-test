@@ -10,7 +10,7 @@ let firstName: string = "Viktor"
 let lastName: string = uuidv4()
 
 let testAddress: IAddress = {
-    entityType: AddressEntityType.billing,
+    entityType: AddressEntityType.BILLING,
     firstName: "Viktor",
     lastName: "Kalinin",
     company: "Umbrella",
@@ -120,7 +120,7 @@ describe("adding a customer", function () {
     });
 
     it('should not add customer without authToken', function () {
-        cy.wait("@userInfo").then(interception => {
+        cy.wait("@userInfo").then(() => {
             api.authToken = null
 
             let lastName: string = uuidv4()

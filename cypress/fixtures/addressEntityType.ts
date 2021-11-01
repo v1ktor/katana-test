@@ -1,4 +1,4 @@
 export enum AddressEntityType {
-    billing = "billing",
-    shipping = "shipping"
+    BILLING = "billing",
+    SHIPPING = "shipping"
 }

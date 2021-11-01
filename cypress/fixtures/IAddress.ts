@@ -21,7 +21,7 @@ export interface IAddress {
 }
 
 export const defaultBillingAddress: IAddress = {
-    entityType: AddressEntityType.billing,
+    entityType: AddressEntityType.BILLING,
     firstName: "Viktor",
     lastName: "Kalinin",
     company: "Umbrella",

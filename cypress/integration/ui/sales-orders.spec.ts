@@ -16,7 +16,7 @@ let lastName: string = uuidv4()
 let orderNo: string = uuidv4()
 
 let testAddress: IAddress = {
-    entityType: AddressEntityType.billing,
+    entityType: AddressEntityType.BILLING,
     firstName: "Viktor",
     lastName: "Kalinin",
     company: "Umbrella",
